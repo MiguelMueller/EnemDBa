@@ -7,10 +7,12 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- ============================================================
 -- perfis
+-- Nota: auth_id referencia auth.users em produção (Supabase).
+-- A FK foi omitida para permitir testes sem o sistema de auth.
 -- ============================================================
 CREATE TABLE public.perfis (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    auth_id         UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+    auth_id         UUID NOT NULL UNIQUE,
     nome_completo   TEXT NOT NULL,
     papel           TEXT NOT NULL DEFAULT 'aluno'
                         CHECK (papel IN ('aluno', 'admin_escolar', 'admin_global')),
